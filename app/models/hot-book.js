@@ -25,6 +25,7 @@ class HotBook extends Model{
             group:['artId'],
             attributes:['artId', [Sequelize.fn('COUNT','*'),'count']]
         })
+        console.log(favors)
         books.forEach(book=>{
             HotBook._getEachBookStatus(book, favors)
        })
@@ -35,7 +36,7 @@ class HotBook extends Model{
    static _getEachBookStatus(book, favors){
        let count = 0
        favors.forEach(favor=>{
-           if(book.id === favor.art_id){
+           if(book.id === favor.artId){
                count = favor.get('count')
            }
        })

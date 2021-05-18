@@ -11,10 +11,13 @@ const Koa = require('koa')
 const parser = require('koa-bodyparser')
 const IninManager = require('./core/init')
 const catchError = require('./middlewares/exception')
+const path = require('path')
+const static = require('koa-static')
 // require('./app/models/user')
 const app = new Koa()
 app.use(catchError)
 app.use(parser())
+app.use(static(path.join(__dirname,'./static')))
 // Koa的实例叫做应用程序对象  有很多中间件
 IninManager.initCore(app)
 

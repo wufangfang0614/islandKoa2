@@ -17,7 +17,7 @@ class Art {
         const like = await Favor.userLikeIt(this.artId, this.type, uid)
         return {
             art,
-            like_status:like
+            like_status: like
         }
     }
 
@@ -95,11 +95,23 @@ class Art {
                 art = await Sentence.scope(scope).findOne(finder)
                 break;
             case 400:
+                 // book写在外面会循环导入
+                 const { Book } = require('./book')
+                 art = await Book.scope(scope).findOne(finder)
+                 if(!art){
+                     art = await Book.create({
+                         id:artId
+                     })
+                 }
                 break;
 
             default:
                 break;
         }
+        // if(art && art.image){
+        //     let imgUrl = art.dataValues.image
+        //     art.dataValues.image = global.config.host + imgUrl
+        // }
         return art
     }
 
